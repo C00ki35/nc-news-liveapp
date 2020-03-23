@@ -5,6 +5,10 @@
   grid-template-columns: 100px auto;
   grid-template-rows: 100px auto;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
 
 .header {
   grid-area: header;
@@ -17,4 +21,9 @@
 
 .main {
   grid-area: main;
+}
+
+.article-item {
+  background: red;
+  margin-bottom: 5px;
 }

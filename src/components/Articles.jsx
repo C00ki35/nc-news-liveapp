@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
 import "../App.css";
+import ArticleItem from "./ArticleItem";
 
 class Articles extends Component {
   state = {
@@ -9,16 +10,32 @@ class Articles extends Component {
   };
 
   componentDidMount() {
-    api.allArticles().then(({ articles }) => {
-      this.setState(articles => {
-        return { articles, isLoading: false };
+    this.getArticles();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.topic_id !== prevProps.topic_id) {
+      api.allArticles(this.props.topic_id).then(data => {
+        this.setState({ articles: data.articles, isLoading: false });
       });
+    }
+  }
+
+  getArticles() {
+    api.allArticles(this.props.topic_id).then(data => {
+      this.setState({ articles: data.articles, isLoading: false });
     });
   }
 
   render() {
     if (this.state.isLoading) return <p>Loading....</p>;
-    return <main className={"articles"}>Article or articles go here</main>;
+    return (
+      <main className={"articles"}>
+        {this.state.articles.map(article => {
+          return <ArticleItem key={article.article_id} {...article} />;
+        })}
+      </main>
+    );
   }
 }
 

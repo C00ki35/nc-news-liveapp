@@ -8,9 +8,11 @@ const fetchTopics = () => {
     });
 };
 
-const allArticles = () => {
+const allArticles = topic => {
   return axios
-    .get("https://paulncnews.herokuapp.com/api/articles")
+    .get(`https://paulncnews.herokuapp.com/api/articles`, {
+      params: { topic: topic }
+    })
     .then(({ data }) => {
       return data;
     });
