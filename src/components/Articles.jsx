@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
 import "../App.css";
-import ArticleItem from "./ArticleItem";
+import ArticleItems from "./ArticleItems";
 
 class Articles extends Component {
   state = {
@@ -32,7 +32,7 @@ class Articles extends Component {
     return (
       <main className={"articles"}>
         {this.state.articles.map(article => {
-          return <ArticleItem key={article.article_id} {...article} />;
+          return <ArticleItems key={article.article_id} {...article} />;
         })}
       </main>
     );

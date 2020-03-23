@@ -23,7 +23,7 @@ a {
   grid-area: main;
 }
 
-.article-item {
+.article-items {
   background: red;
   margin-bottom: 5px;
 }

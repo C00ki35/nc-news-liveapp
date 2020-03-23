@@ -20,7 +20,7 @@ class Navbar extends Component {
         {this.state.topics.map(topic => {
           return (
             <div key={topic.slug}>
-              <Link to={`article/${topic.slug}`}>{topic.slug}</Link>
+              <Link to={`articles/${topic.slug}`}>{topic.slug}</Link>
             </div>
           );
         })}

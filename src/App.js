@@ -4,7 +4,7 @@ import { Router } from "@reach/router";
 import Title from "./components/Title";
 import Navbar from "./components/Navbar";
 import Articles from "./components/Articles";
-import ArticleItem from "./components/ArticleItem";
+import FullArticle from "./components/FullArticle";
 
 function App() {
   return (
@@ -12,9 +12,9 @@ function App() {
       <Title />
       <Navbar />
       <Router>
-        <Articles path="/" />
-        <Articles path="article/:topic_id" />
-        <ArticleItem path="article/:article_id" />
+        <Articles path="/*" />
+        <Articles path="articles/:topic_id" />
+        <FullArticle path="articles/:topic/:article_id" />
       </Router>
     </div>
   );
