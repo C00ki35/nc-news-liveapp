@@ -3,6 +3,7 @@ import * as api from "../utils/api";
 import ViewToggler from "./ViewToggler";
 import PostComment from "./PostComment";
 import Vote from "./Vote";
+import ArticleVote from "./ArticleVote";
 class FullArticle extends Component {
   state = {
     article: "",
@@ -31,13 +32,6 @@ class FullArticle extends Component {
       });
   };
 
-  // vote = (item_id, vote) => {
-  //   api.vote(item_id, vote);
-  //   this.setState((currentState) => {
-  //     return (current)
-  //   })
-  // };
-
   render() {
     if (this.state.isLoading) return <p>Loading....</p>;
     return (
@@ -54,9 +48,13 @@ class FullArticle extends Component {
         <hr />
         {this.state.article.topic}
         <hr />
+        <ArticleVote
+          article_id={this.state.article.article_id}
+          votes={this.state.article.votes}
+        />
         Votes: {this.state.article.votes}
         <hr />
-        Comments:{this.state.article.comment_count}
+        Comments:{this.state.comments.length}
         <div></div>
         {this.state.comments.map(
           ({ body, votes, comment_id, author, created_at }) => {
@@ -64,7 +62,7 @@ class FullArticle extends Component {
               <div key={comment_id}>
                 <hr />
                 {body} <br />| Author: {author}
-                <Vote comment_id={comment_id} vote={this.vote} votes={votes} />
+                <Vote comment_id={comment_id} votes={votes} />
               </div>
             );
           }

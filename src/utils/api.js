@@ -67,10 +67,22 @@ const vote = (item_id, vote) => {
     });
 };
 
+const articleVote = (item_id, vote) => {
+  console.log("getting here");
+  return axios
+    .patch(`https://paulncnews.herokuapp.com/api/articles/${item_id}`, {
+      inc_votes: vote
+    })
+    .then(result => {
+      return result;
+    });
+};
+
 module.exports = {
   fetchTopics,
   allArticles,
   articleWithComments,
   postComment,
-  vote
+  vote,
+  articleVote
 };
