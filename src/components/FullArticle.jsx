@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
+import ViewToggler from "./ViewToggler";
 class FullArticle extends Component {
   state = {
     article: "",
@@ -20,14 +21,29 @@ class FullArticle extends Component {
     if (this.state.isLoading) return <p>Loading....</p>;
     return (
       <article>
-        {console.log(this.state.article)}
         <h4>{this.state.article.title}</h4>
         <hr />
         <p>{this.state.article.body}</p>
         <hr />
         {this.state.article.topic}
-        {this.state.article.author}
-        {this.state.article.votes}
+        <hr />
+        Votes: {this.state.article.votes}
+        <hr />
+        Comments:{this.state.article.comment_count}
+        <ViewToggler>
+          <div></div>
+          {this.state.comments.map(
+            ({ body, votes, comment_id, author, created_at }) => {
+              return (
+                <div key={comment_id}>
+                  <hr />
+                  {body} <br />
+                  Votes: {votes} | Author: {author}
+                </div>
+              );
+            }
+          )}
+        </ViewToggler>
       </article>
     );
   }
