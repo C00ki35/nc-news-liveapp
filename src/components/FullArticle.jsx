@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
 import ViewToggler from "./ViewToggler";
+import PostComment from "./PostComment";
 class FullArticle extends Component {
   state = {
     article: "",
     comments: [],
-    isLoading: true
+    isLoading: true,
+    commentAdded: false
   };
 
   componentDidMount() {
@@ -17,10 +19,27 @@ class FullArticle extends Component {
       });
     });
   }
+
+  addComment = comment => {
+    api
+      .postComment(comment, this.props.article_id)
+      .then(({ data: { comment } }) => {
+        this.setState(currentState => {
+          return { comments: [comment, ...currentState.comments] };
+        });
+      });
+  };
+
   render() {
     if (this.state.isLoading) return <p>Loading....</p>;
     return (
       <article>
+        <ViewToggler>
+          <PostComment
+            article_id={this.state.article.article_id}
+            addComment={this.addComment}
+          />
+        </ViewToggler>
         <h4>{this.state.article.title}</h4>
         <hr />
         <p>{this.state.article.body}</p>
@@ -30,20 +49,18 @@ class FullArticle extends Component {
         Votes: {this.state.article.votes}
         <hr />
         Comments:{this.state.article.comment_count}
-        <ViewToggler>
-          <div></div>
-          {this.state.comments.map(
-            ({ body, votes, comment_id, author, created_at }) => {
-              return (
-                <div key={comment_id}>
-                  <hr />
-                  {body} <br />
-                  Votes: {votes} | Author: {author}
-                </div>
-              );
-            }
-          )}
-        </ViewToggler>
+        <div></div>
+        {this.state.comments.map(
+          ({ body, votes, comment_id, author, created_at }) => {
+            return (
+              <div key={comment_id}>
+                <hr />
+                {body} <br />
+                Votes: {votes} | Author: {author}
+              </div>
+            );
+          }
+        )}
       </article>
     );
   }

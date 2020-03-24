@@ -26,7 +26,8 @@ class Articles extends Component {
     api.allArticles(topic, sort_by).then(data => {
       this.setState({
         articles: data.articles,
-        isLoading: false
+        isLoading: false,
+        sort_by: sort_by
       });
     });
   };
@@ -42,7 +43,11 @@ class Articles extends Component {
     return (
       <main className={"articles"}>
         Currently in: {this.props.topic_id}
-        <OrganiseArticles topic={this.props.topic_id} sortby={this.sortby} />
+        <OrganiseArticles
+          topic={this.props.topic_id}
+          sortby={this.sortby}
+          sortby_topic={this.state.sort_by}
+        />
         {this.state.articles.map(article => {
           return <ArticleItems key={article.article_id} {...article} />;
         })}

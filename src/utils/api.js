@@ -46,8 +46,20 @@ const articleComments = article_id => {
     });
 };
 
+const postComment = (comment, article_id) => {
+  return axios
+    .post(
+      `https://paulncnews.herokuapp.com/api/articles/${article_id}/comments`,
+      { username: "jessjelly", body: comment }
+    )
+    .then(result => {
+      return result;
+    });
+};
+
 module.exports = {
   fetchTopics,
   allArticles,
-  articleWithComments
+  articleWithComments,
+  postComment
 };
