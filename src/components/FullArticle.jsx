@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as api from "../utils/api";
 import ViewToggler from "./ViewToggler";
 import PostComment from "./PostComment";
+import Vote from "./Vote";
 class FullArticle extends Component {
   state = {
     article: "",
@@ -30,6 +31,13 @@ class FullArticle extends Component {
       });
   };
 
+  // vote = (item_id, vote) => {
+  //   api.vote(item_id, vote);
+  //   this.setState((currentState) => {
+  //     return (current)
+  //   })
+  // };
+
   render() {
     if (this.state.isLoading) return <p>Loading....</p>;
     return (
@@ -55,8 +63,8 @@ class FullArticle extends Component {
             return (
               <div key={comment_id}>
                 <hr />
-                {body} <br />
-                Votes: {votes} | Author: {author}
+                {body} <br />| Author: {author}
+                <Vote comment_id={comment_id} vote={this.vote} votes={votes} />
               </div>
             );
           }
