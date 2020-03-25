@@ -22,12 +22,16 @@ const articleWithComments = article_id => {
   return Promise.all([
     getSingleArticle(article_id),
     articleComments(article_id)
-  ]).then(([article, comments]) => {
-    return {
-      article,
-      comments
-    };
-  });
+  ])
+    .then(([article, comments]) => {
+      return {
+        article,
+        comments
+      };
+    })
+    .catch(error => {
+      return Promise.reject({ msg: "Status 404 - Article not found" });
+    });
 };
 
 const getSingleArticle = article_id => {
@@ -46,11 +50,11 @@ const articleComments = article_id => {
     });
 };
 
-const postComment = (comment, article_id) => {
+const postComment = (username, comment, article_id) => {
   return axios
     .post(
       `https://paulncnews.herokuapp.com/api/articles/${article_id}/comments`,
-      { username: "jessjelly", body: comment }
+      { username: username, body: comment }
     )
     .then(result => {
       return result;
@@ -68,7 +72,6 @@ const vote = (item_id, vote) => {
 };
 
 const articleVote = (item_id, vote) => {
-  console.log("getting here");
   return axios
     .patch(`https://paulncnews.herokuapp.com/api/articles/${item_id}`, {
       inc_votes: vote
@@ -78,11 +81,34 @@ const articleVote = (item_id, vote) => {
     });
 };
 
+const addUser = (name, username) => {
+  const user = { name: name, username: username };
+  return axios
+    .post(`https://paulncnews.herokuapp.com/api/users`, user)
+    .then(result => {
+      return result;
+    });
+};
+
+const login = username => {
+  console.log(username);
+  return axios
+    .get(`https://paulncnews.herokuapp.com/api/users/${username}`)
+    .then(result => {
+      console.log(result);
+      return result;
+    })
+    .catch(error => {
+      return Promise.reject({ msg: "User does not exist" });
+    });
+};
 module.exports = {
   fetchTopics,
   allArticles,
   articleWithComments,
   postComment,
   vote,
-  articleVote
+  articleVote,
+  addUser,
+  login
 };

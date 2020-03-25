@@ -3,13 +3,18 @@ import * as api from "../utils/api";
 import "../App.css";
 import ArticleItems from "./ArticleItems";
 import OrganiseArticles from "./OrganiseArticles";
+import Loading from "./Loading";
+import ErrorHandling from "../components/ErrorHandler";
+import PostArticle from "./PostArticle";
 
 class Articles extends Component {
   state = {
     isLoading: true,
     articles: [],
     order: "",
-    sort_by: ""
+    sort_by: "",
+    error: false,
+    error_message: ""
   };
 
   componentDidMount() {
@@ -33,15 +38,23 @@ class Articles extends Component {
   };
 
   getArticles = () => {
-    api.allArticles(this.props.topic_id).then(data => {
-      this.setState({ articles: data.articles, isLoading: false });
-    });
+    api
+      .allArticles(this.props.topic_id)
+      .then(data => {
+        this.setState({ articles: data.articles, isLoading: false });
+      })
+      .catch(error => {
+        this.setState({ error: true, isLoading: false });
+      });
   };
 
   render() {
-    if (this.state.isLoading) return <p>Loading....</p>;
+    if (this.state.isLoading) return <Loading />;
+    if (this.state.error) return <ErrorHandling />;
+
     return (
       <main className={"articles"}>
+        {sessionStorage.getItem("loggedin") ? <PostArticle /> : null}
         Currently in: {this.props.topic_id}
         <OrganiseArticles
           topic={this.props.topic_id}

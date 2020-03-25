@@ -4,27 +4,41 @@ import ViewToggler from "./ViewToggler";
 import PostComment from "./PostComment";
 import Vote from "./Vote";
 import ArticleVote from "./ArticleVote";
+import Loading from "./Loading";
+import ErrorHandler from "./ErrorHandler";
 class FullArticle extends Component {
   state = {
     article: "",
     comments: [],
     isLoading: true,
-    commentAdded: false
+    commentAdded: false,
+    error: false,
+    error_message: ""
   };
 
   componentDidMount() {
-    api.articleWithComments(this.props.article_id).then(result => {
-      this.setState({
-        article: result.article,
-        comments: result.comments,
-        isLoading: false
+    api
+      .articleWithComments(this.props.article_id)
+      .then(result => {
+        this.setState({
+          article: result.article,
+          comments: result.comments,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        const message = error.msg;
+        this.setState({
+          error: true,
+          isLoading: false,
+          error_message: message
+        });
       });
-    });
   }
 
-  addComment = comment => {
+  addComment = (username, comment) => {
     api
-      .postComment(comment, this.props.article_id)
+      .postComment(username, comment, this.props.article_id)
       .then(({ data: { comment } }) => {
         this.setState(currentState => {
           return { comments: [comment, ...currentState.comments] };
@@ -33,7 +47,26 @@ class FullArticle extends Component {
   };
 
   render() {
-    if (this.state.isLoading) return <p>Loading....</p>;
+    if (this.state.isLoading) return <Loading />;
+    if (this.state.error) {
+      return <ErrorHandler message={this.state.error_message} />;
+    }
+    const allComments = this.state.comments.map(
+      ({ body, votes, comment_id, author }) => {
+        return (
+          <div key={comment_id}>
+            <hr />
+            {sessionStorage.getItem("user") === author ? (
+              <button>Delete</button>
+            ) : (
+              "NOPE"
+            )}
+            {body} <br />| Author: {author}
+            <Vote comment_id={comment_id} votes={votes} />
+          </div>
+        );
+      }
+    );
     return (
       <article>
         <ViewToggler>
@@ -55,18 +88,7 @@ class FullArticle extends Component {
         Votes: {this.state.article.votes}
         <hr />
         Comments:{this.state.comments.length}
-        <div></div>
-        {this.state.comments.map(
-          ({ body, votes, comment_id, author, created_at }) => {
-            return (
-              <div key={comment_id}>
-                <hr />
-                {body} <br />| Author: {author}
-                <Vote comment_id={comment_id} votes={votes} />
-              </div>
-            );
-          }
-        )}
+        {allComments}
       </article>
     );
   }

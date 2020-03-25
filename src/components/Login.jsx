@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import * as api from "../utils/api";
 
-class PostComment extends Component {
+class Login extends Component {
   state = {
-    comment: "",
-    username: sessionStorage.getItem("user")
+    name: "",
+    username: ""
   };
-
   handleChange = event => {
     const key = event.target.name;
     const info = event.target.value;
@@ -14,12 +14,11 @@ class PostComment extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.addComment(
-      this.state.username,
-      this.state.comment,
-      this.props.article_id
-    );
-    this.setState({ comment: "" });
+    api.login(this.state.username).then(({ data }) => {
+      sessionStorage.setItem("user", data.user.username);
+      sessionStorage.setItem("loggedin", true);
+    });
+    this.setState({ username: "" });
   };
 
   render() {
@@ -27,20 +26,19 @@ class PostComment extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Comment:
+            Username:
             <input
-              name="comment"
+              name="username"
               required
-              value={this.state.comment}
+              value={this.state.username}
               onChange={this.handleChange}
             ></input>
           </label>
-
-          <button type="submit">Add comment</button>
+          <button type="submit">Create User</button>
         </form>
       </div>
     );
   }
 }
 
-export default PostComment;
+export default Login;

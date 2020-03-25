@@ -24,6 +24,7 @@ class Navbar extends Component {
             </div>
           );
         })}
+        <Link to={`/account`}>Create Account</Link>
       </nav>
     );
   }

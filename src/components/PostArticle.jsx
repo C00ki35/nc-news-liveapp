@@ -2,8 +2,7 @@ import React, { Component } from "react";
 
 class PostComment extends Component {
   state = {
-    comment: "",
-    username: sessionStorage.getItem("user")
+    comment: ""
   };
 
   handleChange = event => {
@@ -14,11 +13,7 @@ class PostComment extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.addComment(
-      this.state.username,
-      this.state.comment,
-      this.props.article_id
-    );
+    this.props.addComment(this.state.comment, this.props.article_id);
     this.setState({ comment: "" });
   };
 
