@@ -20,14 +20,18 @@ class Vote extends Component {
       <>
         <div
           onClick={event => {
-            this.handleChange(1);
+            if (this.state.vote < 1) {
+              this.handleChange(1);
+            }
           }}
         >
           <i className="fas fa-arrow-circle-up"></i>
         </div>
         <div
           onClick={event => {
-            this.handleChange(-1);
+            if (this.state.vote === 1) {
+              this.handleChange(1);
+            }
           }}
         >
           <i className="fas fa-arrow-alt-circle-down"></i>

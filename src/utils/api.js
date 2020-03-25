@@ -61,6 +61,16 @@ const postComment = (username, comment, article_id) => {
     });
 };
 
+const postArticle = (title, body, topic, author) => {
+  const article = { title, body, topic, author };
+  return axios
+    .post(`https://paulncnews.herokuapp.com/api/articles`, article)
+    .then(result => {
+      console.log(result);
+      return result;
+    });
+};
+
 const vote = (item_id, vote) => {
   return axios
     .patch(`https://paulncnews.herokuapp.com/api/comments/${item_id}`, {
@@ -91,7 +101,6 @@ const addUser = (name, username) => {
 };
 
 const login = username => {
-  console.log(username);
   return axios
     .get(`https://paulncnews.herokuapp.com/api/users/${username}`)
     .then(result => {
@@ -102,6 +111,7 @@ const login = username => {
       return Promise.reject({ msg: "User does not exist" });
     });
 };
+
 module.exports = {
   fetchTopics,
   allArticles,
@@ -110,5 +120,6 @@ module.exports = {
   vote,
   articleVote,
   addUser,
-  login
+  login,
+  postArticle
 };

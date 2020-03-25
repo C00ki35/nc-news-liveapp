@@ -23,6 +23,9 @@ class PostComment extends Component {
   };
 
   render() {
+    if (!sessionStorage.getItem("loggedin")) {
+      return <div>Login to post a comment</div>;
+    }
     return (
       <div>
         <form onSubmit={this.handleSubmit}>

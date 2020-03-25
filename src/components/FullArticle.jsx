@@ -69,7 +69,7 @@ class FullArticle extends Component {
     );
     return (
       <article>
-        <ViewToggler>
+        <ViewToggler buttonName={"comment"}>
           <PostComment
             article_id={this.state.article.article_id}
             addComment={this.addComment}
@@ -85,9 +85,7 @@ class FullArticle extends Component {
           article_id={this.state.article.article_id}
           votes={this.state.article.votes}
         />
-        Votes: {this.state.article.votes}
         <hr />
-        Comments:{this.state.comments.length}
         {allComments}
       </article>
     );

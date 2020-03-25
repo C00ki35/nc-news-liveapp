@@ -7,9 +7,13 @@ class Title extends Component {
     return (
       <header className={"header"}>
         NC news <br />
-        <Link to={`login/`}>
-          <i className="far fa-user-circle"></i>
-        </Link>
+        {sessionStorage.getItem("loggedin") ? (
+          <div>{sessionStorage.getItem("user")}</div>
+        ) : (
+          <Link to={`login/`}>
+            <i className="far fa-user-circle"></i>
+          </Link>
+        )}
       </header>
     );
   }

@@ -6,6 +6,7 @@ import OrganiseArticles from "./OrganiseArticles";
 import Loading from "./Loading";
 import ErrorHandling from "../components/ErrorHandler";
 import PostArticle from "./PostArticle";
+import ViewToggler from "./ViewToggler";
 
 class Articles extends Component {
   state = {
@@ -14,7 +15,8 @@ class Articles extends Component {
     order: "",
     sort_by: "",
     error: false,
-    error_message: ""
+    error_message: "",
+    articleAdded: false
   };
 
   componentDidMount() {
@@ -23,6 +25,9 @@ class Articles extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.topic_id !== prevProps.topic_id) {
+      this.getArticles(this.props.topic_id);
+    }
+    if (this.state.articleAdded) {
       this.getArticles(this.props.topic_id);
     }
   }
@@ -41,11 +46,18 @@ class Articles extends Component {
     api
       .allArticles(this.props.topic_id)
       .then(data => {
-        this.setState({ articles: data.articles, isLoading: false });
+        this.setState({
+          articles: data.articles,
+          isLoading: false
+        });
       })
       .catch(error => {
         this.setState({ error: true, isLoading: false });
       });
+  };
+
+  articleAdded = () => {
+    this.setState({ articleAdded: true });
   };
 
   render() {
@@ -54,8 +66,17 @@ class Articles extends Component {
 
     return (
       <main className={"articles"}>
-        {sessionStorage.getItem("loggedin") ? <PostArticle /> : null}
-        Currently in: {this.props.topic_id}
+        {sessionStorage.getItem("loggedin") &&
+        this.props.topic_id !== undefined ? (
+          <ViewToggler buttonName={"article"}>
+            <PostArticle
+              topic={this.props.topic_id}
+              articleUpdated={this.articleAdded}
+            />
+          </ViewToggler>
+        ) : null}
+        Currently in:{" "}
+        {this.props.topic_id === undefined ? "All topics" : this.props.topic_id}
         <OrganiseArticles
           topic={this.props.topic_id}
           sortby={this.sortby}
