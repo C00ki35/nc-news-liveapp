@@ -27,10 +27,14 @@ class FullArticle extends Component {
         });
       })
       .catch(error => {
+        const errorMessage = {
+          status: `Status: ${error.response.status} ${error.response.statusText}`,
+          msg: `Article ${this.props.article_id} not here`
+        };
         this.setState({
           error: true,
           isLoading: false,
-          message: error
+          message: errorMessage
         });
       });
   }

@@ -52,10 +52,14 @@ class Articles extends Component {
         });
       })
       .catch(error => {
+        const errorMessage = {
+          status: `Status: ${error.response.status} ${error.response.statusText}`,
+          msg: `${this.props.topic_id} not here`
+        };
         this.setState({
           error: true,
           isLoading: false,
-          message: error
+          message: errorMessage
         });
       });
   };

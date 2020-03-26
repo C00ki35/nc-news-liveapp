@@ -15,12 +15,6 @@ const allArticles = (topic, sort_by) => {
     })
     .then(({ data }) => {
       return data;
-    })
-    .catch(error => {
-      return Promise.reject({
-        status: `${error.response.status}: ${error.response.statusText}`,
-        msg: `${topic} not here`
-      });
     });
 };
 
@@ -28,19 +22,12 @@ const articleWithComments = article_id => {
   return Promise.all([
     getSingleArticle(article_id),
     articleComments(article_id)
-  ])
-    .then(([article, comments]) => {
-      return {
-        article,
-        comments
-      };
-    })
-    .catch(error => {
-      return Promise.reject({
-        status: `${error.response.status}: ${error.response.statusText}`,
-        msg: `${article_id} not here`
-      });
-    });
+  ]).then(([article, comments]) => {
+    return {
+      article,
+      comments
+    };
+  });
 };
 
 const getSingleArticle = article_id => {
