@@ -3,7 +3,6 @@ import * as api from "../utils/api";
 import ViewToggler from "./ViewToggler";
 import PostComment from "./PostComment";
 import Vote from "./Vote";
-import ArticleVote from "./ArticleVote";
 import Loading from "./Loading";
 import ErrorHandler from "./ErrorHandler";
 class FullArticle extends Component {
@@ -22,6 +21,7 @@ class FullArticle extends Component {
   }
 
   getArticle = () => {
+    console.log("doning this bit");
     api
       .articleWithComments(this.props.article_id)
       .then(result => {
@@ -44,10 +44,6 @@ class FullArticle extends Component {
       });
   };
 
-  componentDidUpdate() {
-    this.getArticle();
-  }
-
   addComment = (username, comment) => {
     api
       .postComment(username, comment, this.props.article_id)
@@ -59,7 +55,9 @@ class FullArticle extends Component {
   };
 
   deleteComment = event => {
-    api.deleteComment(event.target.id);
+    api.deleteComment(event.target.id).then(result => {
+      this.getArticle();
+    });
   };
 
   render() {
@@ -78,7 +76,7 @@ class FullArticle extends Component {
               </button>
             ) : null}
             {body} <br />| Author: {author}
-            <Vote comment_id={comment_id} votes={votes} />
+            <Vote item_id={comment_id} votes={votes} type={"comments"} />
           </div>
         );
       }
@@ -97,9 +95,10 @@ class FullArticle extends Component {
         <hr />
         {this.state.article.topic}
         <hr />
-        <ArticleVote
-          article_id={this.state.article.article_id}
+        <Vote
+          item_id={this.state.article.article_id}
           votes={this.state.article.votes}
+          type={"articles"}
         />
         <hr />
         {allComments}

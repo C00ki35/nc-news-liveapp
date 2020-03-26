@@ -67,24 +67,13 @@ const postArticle = (title, body, topic, author) => {
     });
 };
 
-const vote = (item_id, vote) => {
-  return axios
-    .patch(`https://paulncnews.herokuapp.com/api/comments/${item_id}`, {
+const vote = (item_id, vote, type) => {
+  return axios.patch(
+    `https://paulncnews.herokuapp.com/api/${type}/${item_id}`,
+    {
       inc_votes: vote
-    })
-    .then(result => {
-      return result;
-    });
-};
-
-const articleVote = (item_id, vote) => {
-  return axios
-    .patch(`https://paulncnews.herokuapp.com/api/articles/${item_id}`, {
-      inc_votes: vote
-    })
-    .then(result => {
-      return result;
-    });
+    }
+  );
 };
 
 const addUser = (name, username) => {
@@ -127,7 +116,6 @@ module.exports = {
   articleWithComments,
   postComment,
   vote,
-  articleVote,
   addUser,
   loginUser,
   postArticle,

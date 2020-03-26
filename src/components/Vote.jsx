@@ -1,45 +1,43 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
-
 class Vote extends Component {
   state = {
-    vote: 0
+    votes: 0
   };
-
-  handleChange = star => {
-    api.vote(this.props.comment_id, star);
+  voteUpdater = vote => {
+    api.vote(this.props.item_id, vote, this.props.type);
     this.setState(currentState => {
-      return { vote: currentState.vote + star };
+      return { votes: currentState.votes + vote };
     });
   };
-
   render() {
-    {
-    }
+    const { votes } = this.state;
     return (
-      <>
-        <div
+      <div>
+        {console.log(this.state.votes)}
+        <button
+          disabled={votes > 0}
           onClick={event => {
-            if (this.state.vote < 1) {
-              this.handleChange(1);
-            }
+            this.voteUpdater(1);
           }}
         >
-          <i className="fas fa-arrow-circle-up"></i>
-        </div>
-        <div
+          <span role="img" aria-label="thumbs up">
+            👍
+          </span>
+        </button>{" "}
+        Votes: {this.props.votes + votes}
+        <button
+          disabled={votes < 0}
           onClick={event => {
-            if (this.state.vote === 1) {
-              this.handleChange(1);
-            }
+            this.voteUpdater(-1);
           }}
         >
-          <i className="fas fa-arrow-alt-circle-down"></i>
-        </div>
-        <div>{this.state.vote + this.props.votes}</div>
-      </>
+          <span role="img" aria-label="thumbs down">
+            👎
+          </span>
+        </button>
+      </div>
     );
   }
 }
-
 export default Vote;

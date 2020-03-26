@@ -16,7 +16,7 @@ a {
 
 .header {
   grid-area: header;
-  background-color: blue;
+  background-color: #161918;
 }
 
 .nav-bar {

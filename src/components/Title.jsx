@@ -7,9 +7,9 @@ class Title extends Component {
     return (
       <header className={"header"}>
         NC news <br />
-        Logged in as: {this.props.loggedin}
+        {this.props.loggedin}
         {this.props.loggedin ? (
-          <div>{sessionStorage.getItem("user")}</div>
+          <div>{`Loggin in: ${sessionStorage.getItem("user")}`}</div>
         ) : (
           <Link to={`login/`}>
             <i className="far fa-user-circle"></i>
