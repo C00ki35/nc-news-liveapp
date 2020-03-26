@@ -100,11 +100,24 @@ const login = username => {
   return axios
     .get(`https://paulncnews.herokuapp.com/api/users/${username}`)
     .then(result => {
+      return result;
+    });
+};
+
+const deleteComment = comment_id => {
+  return axios
+    .delete(`https://paulncnews.herokuapp.com/api/comments/${comment_id}`)
+    .then(result => {
       console.log(result);
       return result;
-    })
-    .catch(error => {
-      return Promise.reject({ msg: "User does not exist" });
+    });
+};
+
+const deleteArticle = article_id => {
+  return axios
+    .delete(`https://paulncnews.herokuapp.com/api/articles/${article_id}`)
+    .then(result => {
+      return result;
     });
 };
 
@@ -117,5 +130,7 @@ module.exports = {
   articleVote,
   addUser,
   login,
-  postArticle
+  postArticle,
+  deleteComment,
+  deleteArticle
 };

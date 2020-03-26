@@ -13,10 +13,15 @@ class FullArticle extends Component {
     isLoading: true,
     commentAdded: false,
     error: false,
-    message: ""
+    message: "",
+    commentdeleted: false
   };
 
   componentDidMount() {
+    this.getArticle();
+  }
+
+  getArticle = () => {
     api
       .articleWithComments(this.props.article_id)
       .then(result => {
@@ -37,6 +42,10 @@ class FullArticle extends Component {
           message: errorMessage
         });
       });
+  };
+
+  componentDidUpdate() {
+    this.getArticle();
   }
 
   addComment = (username, comment) => {
@@ -47,6 +56,10 @@ class FullArticle extends Component {
           return { comments: [comment, ...currentState.comments] };
         });
       });
+  };
+
+  deleteComment = event => {
+    api.deleteComment(event.target.id);
   };
 
   render() {
@@ -60,10 +73,10 @@ class FullArticle extends Component {
           <div key={comment_id}>
             <hr />
             {sessionStorage.getItem("user") === author ? (
-              <button>Delete</button>
-            ) : (
-              "NOPE"
-            )}
+              <button id={comment_id} onClick={this.deleteComment}>
+                Delete
+              </button>
+            ) : null}
             {body} <br />| Author: {author}
             <Vote comment_id={comment_id} votes={votes} />
           </div>

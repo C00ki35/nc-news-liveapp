@@ -16,7 +16,8 @@ class Articles extends Component {
     sort_by: "",
     error: false,
     message: "",
-    articleAdded: false
+    articleAdded: false,
+    articleDeleted: false
   };
 
   componentDidMount() {
@@ -39,6 +40,12 @@ class Articles extends Component {
         isLoading: false,
         sort_by: sort_by
       });
+    });
+  };
+
+  deleteArticle = article_id => {
+    api.deleteArticle(article_id).then(response => {
+      this.getArticles();
     });
   };
 
@@ -91,7 +98,13 @@ class Articles extends Component {
           sortby_topic={this.state.sort_by}
         />
         {this.state.articles.map(article => {
-          return <ArticleItems key={article.article_id} {...article} />;
+          return (
+            <ArticleItems
+              deleteArticle={this.deleteArticle}
+              key={article.article_id}
+              {...article}
+            />
+          );
         })}
       </main>
     );

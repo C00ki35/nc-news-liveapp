@@ -15,6 +15,11 @@ const ArticleItems = props => {
         <br />
         author: {props.author}
         <br />
+        {sessionStorage.getItem("user") === props.author ? (
+          <button onClick={() => props.deleteArticle(props.article_id)}>
+            Delete
+          </button>
+        ) : null}
         date: {props.created_at}
         <br />
         votes: {props.votes} - comments: {props.comment_count}
