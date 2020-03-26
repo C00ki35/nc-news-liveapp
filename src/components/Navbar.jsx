@@ -24,7 +24,9 @@ class Navbar extends Component {
             </div>
           );
         })}
-        <Link to={`/account`}>Create Account</Link>
+        {!this.props.loggedin ? (
+          <Link to={`/account`}>Create Account</Link>
+        ) : null}
       </nav>
     );
   }

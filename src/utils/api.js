@@ -96,7 +96,7 @@ const addUser = (name, username) => {
     });
 };
 
-const login = username => {
+const loginUser = username => {
   return axios
     .get(`https://paulncnews.herokuapp.com/api/users/${username}`)
     .then(result => {
@@ -129,7 +129,7 @@ module.exports = {
   vote,
   articleVote,
   addUser,
-  login,
+  loginUser,
   postArticle,
   deleteComment,
   deleteArticle
