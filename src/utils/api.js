@@ -15,6 +15,12 @@ const allArticles = (topic, sort_by) => {
     })
     .then(({ data }) => {
       return data;
+    })
+    .catch(error => {
+      return Promise.reject({
+        status: `${error.response.status}: ${error.response.statusText}`,
+        msg: `${topic} not here`
+      });
     });
 };
 
@@ -30,7 +36,10 @@ const articleWithComments = article_id => {
       };
     })
     .catch(error => {
-      return Promise.reject({ msg: "Status 404 - Article not found" });
+      return Promise.reject({
+        status: `${error.response.status}: ${error.response.statusText}`,
+        msg: `${article_id} not here`
+      });
     });
 };
 

@@ -15,7 +15,7 @@ class Articles extends Component {
     order: "",
     sort_by: "",
     error: false,
-    error_message: "",
+    message: "",
     articleAdded: false
   };
 
@@ -52,7 +52,11 @@ class Articles extends Component {
         });
       })
       .catch(error => {
-        this.setState({ error: true, isLoading: false });
+        this.setState({
+          error: true,
+          isLoading: false,
+          message: error
+        });
       });
   };
 
@@ -62,7 +66,7 @@ class Articles extends Component {
 
   render() {
     if (this.state.isLoading) return <Loading />;
-    if (this.state.error) return <ErrorHandling />;
+    if (this.state.error) return <ErrorHandling error={this.state.message} />;
 
     return (
       <main className={"articles"}>

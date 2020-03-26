@@ -13,7 +13,7 @@ class FullArticle extends Component {
     isLoading: true,
     commentAdded: false,
     error: false,
-    error_message: ""
+    message: ""
   };
 
   componentDidMount() {
@@ -27,11 +27,10 @@ class FullArticle extends Component {
         });
       })
       .catch(error => {
-        const message = error.msg;
         this.setState({
           error: true,
           isLoading: false,
-          error_message: message
+          message: error
         });
       });
   }
@@ -49,7 +48,7 @@ class FullArticle extends Component {
   render() {
     if (this.state.isLoading) return <Loading />;
     if (this.state.error) {
-      return <ErrorHandler message={this.state.error_message} />;
+      return <ErrorHandler error={this.state.message} />;
     }
     const allComments = this.state.comments.map(
       ({ body, votes, comment_id, author }) => {
