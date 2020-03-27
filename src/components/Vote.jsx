@@ -15,7 +15,7 @@ class Vote extends Component {
     return (
       <div className={"voter"}>
         <button
-          disabled={votes > 0}
+          disabled={votes > 0 || sessionStorage.getItem("loggedin") === null}
           onClick={event => {
             if (this.state.votes !== 1) {
               this.voteUpdater(1);
@@ -28,7 +28,7 @@ class Vote extends Component {
         </button>{" "}
         Votes: {this.props.votes + votes}
         <button
-          disabled={votes < 0}
+          disabled={votes < 0 || sessionStorage.getItem("loggedin") === null}
           onClick={event => {
             if (this.state.votes !== 0) {
               this.voteUpdater(-1);
