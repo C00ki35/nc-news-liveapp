@@ -23,7 +23,7 @@ class Vote extends Component {
           }}
         >
           <span role="img" aria-label="vote-up">
-            <i class="fas fa-arrow-circle-up"></i>
+            <i className="fas fa-arrow-circle-up"></i>
           </span>
         </button>{" "}
         Votes: {this.props.votes + votes}
@@ -36,7 +36,7 @@ class Vote extends Component {
           }}
         >
           <span role="img" aria-label="vote-down">
-            <i class="fas fa-arrow-circle-down"></i>
+            <i className="fas fa-arrow-circle-down"></i>
           </span>
         </button>
       </div>
