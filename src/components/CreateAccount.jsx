@@ -14,7 +14,7 @@ class CreateAccount extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    api.addUser(this.state.name, this.state.username);
+    api.addNewUser(this.state.name, this.state.username);
     this.setState({ name: "", username: "" });
   };
 

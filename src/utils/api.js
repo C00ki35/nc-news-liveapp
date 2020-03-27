@@ -75,7 +75,7 @@ const vote = (item_id, vote, type) => {
   );
 };
 
-const addUser = (name, username) => {
+const addNewUser = (name, username) => {
   const user = { name: name, username: username };
   return axios
     .post(`https://paulncnews.herokuapp.com/api/users`, user)
@@ -114,7 +114,7 @@ module.exports = {
   articleWithComments,
   postComment,
   vote,
-  addUser,
+  addNewUser,
   loginUser,
   postArticle,
   deleteComment,
