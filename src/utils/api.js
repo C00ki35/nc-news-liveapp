@@ -114,9 +114,9 @@ module.exports = {
   articleWithComments,
   postComment,
   vote,
-  addNewUser,
   loginUser,
   postArticle,
   deleteComment,
-  deleteArticle
+  deleteArticle,
+  addNewUser
 };
