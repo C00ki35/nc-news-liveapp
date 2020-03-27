@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const fetchTopics = () => {
+exports.fetchTopics = () => {
   return axios
     .get("https://paulncnews.herokuapp.com/api/topics")
     .then(({ data }) => {
@@ -8,7 +8,7 @@ const fetchTopics = () => {
     });
 };
 
-const allArticles = (topic, sort_by) => {
+exports.allArticles = (topic, sort_by) => {
   return axios
     .get(`https://paulncnews.herokuapp.com/api/articles`, {
       params: { topic: topic, sort_by: sort_by }
@@ -18,10 +18,10 @@ const allArticles = (topic, sort_by) => {
     });
 };
 
-const articleWithComments = article_id => {
+exports.articleWithComments = article_id => {
   return Promise.all([
-    getSingleArticle(article_id),
-    articleComments(article_id)
+    exports.getSingleArticle(article_id),
+    exports.articleComments(article_id)
   ]).then(([article, comments]) => {
     return {
       article,
@@ -30,7 +30,7 @@ const articleWithComments = article_id => {
   });
 };
 
-const getSingleArticle = article_id => {
+exports.getSingleArticle = article_id => {
   return axios
     .get(`https://paulncnews.herokuapp.com/api/articles/${article_id}`)
     .then(({ data }) => {
@@ -38,7 +38,7 @@ const getSingleArticle = article_id => {
     });
 };
 
-const articleComments = article_id => {
+exports.articleComments = article_id => {
   return axios
     .get(`https://paulncnews.herokuapp.com/api/articles/${article_id}/comments`)
     .then(({ data: { comments } }) => {
@@ -46,7 +46,7 @@ const articleComments = article_id => {
     });
 };
 
-const postComment = (username, comment, article_id) => {
+exports.postComment = (username, comment, article_id) => {
   return axios
     .post(
       `https://paulncnews.herokuapp.com/api/articles/${article_id}/comments`,
@@ -57,7 +57,7 @@ const postComment = (username, comment, article_id) => {
     });
 };
 
-const postArticle = (title, body, topic, author) => {
+exports.postArticle = (title, body, topic, author) => {
   const article = { title, body, topic, author };
   return axios
     .post(`https://paulncnews.herokuapp.com/api/articles`, article)
@@ -66,7 +66,7 @@ const postArticle = (title, body, topic, author) => {
     });
 };
 
-const vote = (item_id, vote, type) => {
+exports.vote = (item_id, vote, type) => {
   return axios.patch(
     `https://paulncnews.herokuapp.com/api/${type}/${item_id}`,
     {
@@ -75,16 +75,7 @@ const vote = (item_id, vote, type) => {
   );
 };
 
-const addNewUser = (name, username) => {
-  const user = { name: name, username: username };
-  return axios
-    .post(`https://paulncnews.herokuapp.com/api/users`, user)
-    .then(result => {
-      return result;
-    });
-};
-
-const loginUser = username => {
+exports.loginUser = username => {
   return axios
     .get(`https://paulncnews.herokuapp.com/api/users/${username}`)
     .then(result => {
@@ -92,7 +83,7 @@ const loginUser = username => {
     });
 };
 
-const deleteComment = comment_id => {
+exports.deleteComment = comment_id => {
   return axios
     .delete(`https://paulncnews.herokuapp.com/api/comments/${comment_id}`)
     .then(result => {
@@ -100,23 +91,18 @@ const deleteComment = comment_id => {
     });
 };
 
-const deleteArticle = article_id => {
+exports.deleteArticle = article_id => {
   return axios
     .delete(`https://paulncnews.herokuapp.com/api/articles/${article_id}`)
     .then(result => {
       return result;
     });
 };
-
-module.exports = {
-  fetchTopics,
-  allArticles,
-  articleWithComments,
-  postComment,
-  vote,
-  loginUser,
-  postArticle,
-  deleteComment,
-  deleteArticle,
-  addNewUser
+exports.addNewUser = (name, username) => {
+  const user = { name: name, username: username };
+  return axios
+    .post(`https://paulncnews.herokuapp.com/api/users`, user)
+    .then(result => {
+      return result;
+    });
 };
