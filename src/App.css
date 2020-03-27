@@ -1,76 +1,342 @@
+html,
 body {
   margin: 0;
-  background-color: #3d5a80;
+  background-color: #d6d1d1;
+  font-size: 1em;
 }
-.App {
-  text-align: center;
-  display: grid;
-  grid-template-areas: "header header" "nav-bar main";
-  grid-template-columns: 100px auto;
-  grid-template-rows: 100px auto;
-}
+
 a {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
-.header {
-  grid-area: header;
-  background-color: #161918;
+.title {
+  display: flex;
+  flex-direction: row;
+  padding-top: 10px;
+  width: 100%;
+  height: 90px;
+  background-color: #990a29;
+  color: white;
 }
 
-.nav-bar {
-  grid-area: nav-bar;
+.title-login {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  padding: 10px;
+  justify-content: space-around;
 }
 
-.main {
-  grid-area: main;
+.login-icon {
+  display: flex;
+  justify-content: flex-end;
+  margin: auto;
+  width: 90%;
 }
 
-.article-items {
-  background: red;
-  margin-bottom: 5px;
+.login {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  align-items: center;
+  justify-content: center;
 }
 
 .error {
   display: flex;
+  flex-direction: column;
+  height: 300px;
+  align-items: center;
+  justify-content: center;
+  color: #990a29;
+  font-size: 1.3em;
+}
+.articles {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  margin: auto;
+}
 
-  height: 100vh;
+.display-article {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  margin: auto;
+}
+
+.currently-in {
+  padding: 5px;
+  background-color: #161918;
   color: white;
 }
 
-.lds-ring {
+.add-article-comment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.add-button {
+  background-color: #eca400;
+  width: 150px;
+  height: 30px;
+  border: none;
+  color: white;
+  padding: 7px 7px;
+  text-align: center;
+  text-decoration: none;
   display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
+  font-size: 16px;
 }
-.lds-ring div {
+
+.delete-button {
+  background-color: #990a29;
+  width: 90px;
+  height: 20px;
+  border: none;
+  color: white;
+  padding: 3px 3px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.add-button {
+  background-color: #eca400;
+  width: 180px;
+  height: 30px;
+  border: none;
+  color: white;
+  padding: 7px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.organise {
+  display: flex;
+  margin: auto;
+}
+.organiseArticles {
+  display: flex;
+  align-self: center;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  min-width: 320px;
+  max-width: 600px;
+}
+
+.organise-button {
+  background-color: #990a29;
+  width: 100px;
+  height: 30px;
+  border: none;
+  color: white;
+  padding: 7px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-style: 1px solid black;
+  font-size: 16px;
+  padding: 5px;
+}
+.article-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin: 5px;
+  padding: 5px;
+  background-color: #9dbbcc;
+  border-radius: 5px;
+}
+.article-header {
+  font-weight: bold;
+  padding: 5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.article-header a {
+  line-height: 18px;
+  font-size: 1.2em;
+  color: black;
+}
+
+.article-body {
+  padding-left: 5px;
+}
+
+.post-comment {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+.voter {
+  display: flex;
+  font-size: 1em;
+  justify-content: center;
+}
+
+.comment-textbox {
+  width: 300px;
+  height: 100px;
+  border-radius: 8px;
+  resize: none;
+}
+
+.add-comment-button {
+  background-color: #eca400;
+  width: 180px;
+  height: 30px;
+  border: none;
+  color: white;
+  padding: 7px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.comment-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin: 5px;
+  padding: 5px;
+  background-color: #d3cfb8;
+  border-radius: 5px;
+}
+
+.comment-block {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment-body {
+  padding: 8px;
+}
+
+.post-article {
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  height: 200px;
+  padding-left: 20px;
+  line-height: 1.3px;
+}
+
+.formLabels {
+  padding-right: 10px;
+}
+
+input[type="text"] {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 10px 10px;
+  margin: 8px 0;
   box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border: 8px solid #fff;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #fff transparent transparent transparent;
+  font-size: 1em;
+  background-color: white;
+  border-radius: 5px;
 }
-.lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
+.article-title-textbox {
+  width: 262px;
+  padding: 5px 5px;
+  margin: 3px 0;
+  box-sizing: border-box;
+  font-size: 1em;
+  background-color: white;
+  border-radius: 8px;
 }
-.lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
+.article-textbox {
+  width: 300px;
+  height: 50px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  resize: none;
 }
-.lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
+
+/* BURGER MENU - NOT MY WORK */
+#App {
+  font-family: sans-serif;
+
+  /* Give app full page to work with */
+  height: 100vh;
 }
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+
+#page-wrap {
+  text-align: center;
+
+  /* Prevent sidebar from showing a scrollbar on page */
+  overflow: auto;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+
+  /* Our sidebar item styling */
+  text-decoration: none;
+  margin-bottom: 10px;
+  color: #d1d1d1;
+  transition: color 0.2s;
+}
+
+/* Change color on hover */
+.bm-item:hover {
+  color: white;
+}
+
+/* The rest copied directly from react-burger-menu docs */
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 25px;
+  left: 20px;
+  top: 10px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: white;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 18px;
+  width: 18px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
 }

@@ -21,7 +21,6 @@ class FullArticle extends Component {
   }
 
   getArticle = () => {
-    console.log("doning this bit");
     api
       .articleWithComments(this.props.article_id)
       .then(result => {
@@ -48,9 +47,14 @@ class FullArticle extends Component {
     api
       .postComment(username, comment, this.props.article_id)
       .then(({ data: { comment } }) => {
-        this.setState(currentState => {
-          return { comments: [comment, ...currentState.comments] };
-        });
+        this.setState(
+          currentState => {
+            return { comments: [comment, ...currentState.comments] };
+          },
+          () => {
+            this.getArticle();
+          }
+        );
       });
   };
 
@@ -68,41 +72,52 @@ class FullArticle extends Component {
     const allComments = this.state.comments.map(
       ({ body, votes, comment_id, author }) => {
         return (
-          <div key={comment_id}>
-            <hr />
-            {sessionStorage.getItem("user") === author ? (
-              <button id={comment_id} onClick={this.deleteComment}>
-                Delete
-              </button>
-            ) : null}
-            {body} <br />| Author: {author}
-            <Vote item_id={comment_id} votes={votes} type={"comments"} />
-          </div>
+          <article key={comment_id} className={"comment-section"}>
+            <div className={"comment-block"} key={comment_id}>
+              <div>
+                Author: {author}
+                <Vote item_id={comment_id} votes={votes} type={"comments"} />
+                {sessionStorage.getItem("user") === author ? (
+                  <button
+                    className={"delete-button"}
+                    delete-button
+                    id={comment_id}
+                    onClick={this.deleteComment}
+                  >
+                    Delete
+                  </button>
+                ) : null}
+              </div>
+              <div className={"comment-body"}>{body}</div>
+            </div>
+          </article>
         );
       }
     );
     return (
-      <article>
-        <ViewToggler buttonName={"comment"}>
-          <PostComment
-            article_id={this.state.article.article_id}
-            addComment={this.addComment}
-          />
-        </ViewToggler>
-        <h4>{this.state.article.title}</h4>
-        <hr />
-        <p>{this.state.article.body}</p>
-        <hr />
-        {this.state.article.topic}
-        <hr />
-        <Vote
-          item_id={this.state.article.article_id}
-          votes={this.state.article.votes}
-          type={"articles"}
-        />
-        <hr />
-        {allComments}
-      </article>
+      <>
+        <article className={"display-article"}>
+          <div className={"article-section"}>
+            <ViewToggler buttonName={"comment"}>
+              <PostComment
+                article_id={this.state.article.article_id}
+                addComment={this.addComment}
+              />
+            </ViewToggler>
+            <h4>{this.state.article.title}</h4>
+            {this.state.article.body}
+            {this.state.article.topic}
+            <hr />
+            <Vote
+              item_id={this.state.article.article_id}
+              votes={this.state.article.votes}
+              type={"articles"}
+            />
+            Comments: {this.state.article.comment_count}
+          </div>
+        </article>
+        <div className={"display-article"}>{allComments}</div>
+      </>
     );
   }
 }

@@ -2,11 +2,11 @@ import React from "react";
 import "./App.css";
 import { Router } from "@reach/router";
 import Title from "./components/Title";
-import Navbar from "./components/Navbar";
 import Articles from "./components/Articles";
 import FullArticle from "./components/FullArticle";
 import CreateAccount from "./components/CreateAccount";
 import Login from "./components/Login";
+import SideBar from "./components/SideBar";
 
 class App extends React.Component {
   state = {
@@ -19,10 +19,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        {console.log("Logged in: " + this.state.loggedin)}
+      <div id="App">
+        <SideBar loggedin={this.state.loggedin} />
         <Title loggedin={this.state.loggedin} />
-        <Navbar loggedin={this.state.loggedin} />
         <Router>
           <Articles path="/" />
           <Articles path="articles/:topic_id" />

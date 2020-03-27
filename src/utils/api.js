@@ -62,7 +62,6 @@ const postArticle = (title, body, topic, author) => {
   return axios
     .post(`https://paulncnews.herokuapp.com/api/articles`, article)
     .then(result => {
-      console.log(result);
       return result;
     });
 };
@@ -97,7 +96,6 @@ const deleteComment = comment_id => {
   return axios
     .delete(`https://paulncnews.herokuapp.com/api/comments/${comment_id}`)
     .then(result => {
-      console.log(result);
       return result;
     });
 };

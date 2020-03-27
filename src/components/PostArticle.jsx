@@ -28,28 +28,36 @@ class PostComment extends Component {
 
   render() {
     return (
-      <div>
+      <div className={"post-article"}>
         <form onSubmit={this.handleSubmit}>
-          <label>
+          <label className={"formLabels"}>
             Title:
             <input
+              className={"article-title-textbox"}
               name="title"
               required
               value={this.state.title}
               onChange={this.handleChange}
             ></input>
           </label>
+          <p />
           <label>
             What do you want to add?:
-            <input
+            <p />
+            <textarea
+              className={"article-textbox"}
               name="body"
               required
               value={this.state.body}
               onChange={this.handleChange}
-            ></input>
+            ></textarea>
           </label>
-
-          <button type="submit">Add article for this topic</button>
+          <p />
+          <div>
+            <button className={"add-comment-button"} type="submit">
+              Add article
+            </button>
+          </div>
         </form>
       </div>
     );

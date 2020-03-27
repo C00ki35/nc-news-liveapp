@@ -24,22 +24,25 @@ class PostComment extends Component {
 
   render() {
     if (!sessionStorage.getItem("loggedin")) {
-      return <div>Login to post a comment</div>;
+      return <div className={"post-comment"}>Login to post a comment</div>;
     }
     return (
-      <div>
+      <div className={"post-comment"}>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Comment:
-            <input
+            <textarea
+              className={"comment-textbox"}
               name="comment"
               required
               value={this.state.comment}
               onChange={this.handleChange}
-            ></input>
+            ></textarea>
+            <p />
           </label>
 
-          <button type="submit">Add comment</button>
+          <button className={"add-comment-button"} type="submit">
+            Add comment
+          </button>
         </form>
       </div>
     );

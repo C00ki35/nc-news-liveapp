@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
+import { Link } from "@reach/router";
 
 class Login extends Component {
   state = {
@@ -34,27 +35,32 @@ class Login extends Component {
   render() {
     if (sessionStorage.getItem("user")) {
       return (
-        <div>
-          <p>You are now logged in as: {sessionStorage.getItem("user")}</p>
-        </div>
+        <main className={"login"}>
+          <div className={"login-box"}>
+            <p>Logged in</p>
+            <Link to={`/`}>View Articles</Link>
+          </div>
+        </main>
       );
     }
     return (
-      <div>
-        {this.state.errormessage}
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Username:
-            <input
-              name="username"
-              required
-              value={this.state.username}
-              onChange={this.handleChange}
-            ></input>
-          </label>
-          <button type="submit">Login</button>
-        </form>
-      </div>
+      <main className={"login"}>
+        <div>{this.state.errormessage}</div>
+        <div className={"login-box"}>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Username:
+              <input
+                name="username"
+                required
+                value={this.state.username}
+                onChange={this.handleChange}
+              ></input>
+            </label>
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      </main>
     );
   }
 }

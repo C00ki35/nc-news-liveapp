@@ -13,27 +13,30 @@ class Vote extends Component {
   render() {
     const { votes } = this.state;
     return (
-      <div>
-        {console.log(this.state.votes)}
+      <div className={"voter"}>
         <button
           disabled={votes > 0}
           onClick={event => {
-            this.voteUpdater(1);
+            if (this.state.votes !== 1) {
+              this.voteUpdater(1);
+            }
           }}
         >
-          <span role="img" aria-label="thumbs up">
-            👍
+          <span role="img" aria-label="vote-up">
+            <i class="fas fa-arrow-circle-up"></i>
           </span>
         </button>{" "}
         Votes: {this.props.votes + votes}
         <button
           disabled={votes < 0}
           onClick={event => {
-            this.voteUpdater(-1);
+            if (this.state.votes !== 0) {
+              this.voteUpdater(-1);
+            }
           }}
         >
-          <span role="img" aria-label="thumbs down">
-            👎
+          <span role="img" aria-label="vote-down">
+            <i class="fas fa-arrow-circle-down"></i>
           </span>
         </button>
       </div>

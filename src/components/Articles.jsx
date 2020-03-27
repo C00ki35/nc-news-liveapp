@@ -81,6 +81,17 @@ class Articles extends Component {
 
     return (
       <main className={"articles"}>
+        <div className={"currently-in"}>
+          Currently in:{" "}
+          {this.props.topic_id === undefined
+            ? "All topics"
+            : this.props.topic_id}
+        </div>
+        <OrganiseArticles
+          topic={this.props.topic_id}
+          sortby={this.sortby}
+          sortby_topic={this.state.sort_by}
+        />
         {sessionStorage.getItem("loggedin") &&
         this.props.topic_id !== undefined ? (
           <ViewToggler buttonName={"article"}>
@@ -90,13 +101,7 @@ class Articles extends Component {
             />
           </ViewToggler>
         ) : null}
-        Currently in:{" "}
-        {this.props.topic_id === undefined ? "All topics" : this.props.topic_id}
-        <OrganiseArticles
-          topic={this.props.topic_id}
-          sortby={this.sortby}
-          sortby_topic={this.state.sort_by}
-        />
+
         {this.state.articles.map(article => {
           return (
             <ArticleItems

@@ -4,25 +4,26 @@ import "../App.css";
 
 const ArticleItems = props => {
   return (
-    <section>
-      <header className="article-items">
+    <section className={"article-section"}>
+      <header className="article-header">
         <Link to={`/articles/${props.topic}/${props.article_id}`}>
-          {props.title}
+          {props.title} ...
         </Link>
       </header>
-      <div>
-        {props.topic}
+      <div className={"article-body"}>
+        Author: {props.author}
+        Date: {new Date(props.created_at).toLocaleDateString()}
         <br />
-        author: {props.author}
+        Votes: {props.votes} - comments: {props.comment_count}
         <br />
         {sessionStorage.getItem("user") === props.author ? (
-          <button onClick={() => props.deleteArticle(props.article_id)}>
+          <button
+            className={"delete-button"}
+            onClick={() => props.deleteArticle(props.article_id)}
+          >
             Delete
           </button>
         ) : null}
-        date: {props.created_at}
-        <br />
-        votes: {props.votes} - comments: {props.comment_count}
       </div>
     </section>
   );

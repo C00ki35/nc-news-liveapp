@@ -5,16 +5,16 @@ import "../App.css";
 class Title extends Component {
   render() {
     return (
-      <header className={"header"}>
-        NC news <br />
-        {this.props.loggedin}
-        {this.props.loggedin ? (
-          <div>{`Loggin in: ${sessionStorage.getItem("user")}`}</div>
-        ) : (
-          <Link to={`login/`}>
-            <i className="far fa-user-circle"></i>
-          </Link>
-        )}
+      <header className={"title"}>
+        <div className={"title-login"}>
+          <h1>Northcoders News</h1>
+          {this.props.loggedin}
+          {this.props.loggedin ? null : (
+            <Link to={`login/`}>
+              <i style={{ color: "white" }} className="fas fa-user fa-2x"></i>
+            </Link>
+          )}
+        </div>
       </header>
     );
   }

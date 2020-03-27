@@ -13,15 +13,14 @@ class ViewToggler extends Component {
 
   render() {
     return (
-      <>
-        You have {this.props.buttonName}
-        <button className={"info-button"} onClick={this.handleClick}>
+      <div className={"add-article-comment"}>
+        <button className={"add-button"} onClick={this.handleClick}>
           {this.state.isVisible
             ? "Maybe later"
             : `Add a new ${this.props.buttonName}`}
         </button>
         {this.state.isVisible && this.props.children}
-      </>
+      </div>
     );
   }
 }
