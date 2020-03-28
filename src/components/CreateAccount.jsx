@@ -12,11 +12,11 @@ class CreateAccount extends React.Component {
     this.setState({ [key]: info });
   };
 
-  // handleSubmit = event => {
-  //   event.preventDefault();
-  //   api.addNewUser(this.state.name, this.state.username);
-  //   this.setState({ name: "", username: "" });
-  // };
+  handleSubmit = event => {
+    event.preventDefault();
+    api.addNewUser(this.state.name, this.state.username);
+    this.setState({ name: "", username: "" });
+  };
 
   render() {
     return (

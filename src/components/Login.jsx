@@ -6,6 +6,7 @@ class Login extends Component {
   state = {
     name: "",
     username: "",
+    password: "",
     loggedin: false
   };
   handleChange = event => {
@@ -16,20 +17,19 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    api
-      .loginUser(this.state.username)
-      .then(({ data }) => {
-        sessionStorage.setItem("user", data.user.username);
-        sessionStorage.setItem("loggedin", true);
-        this.setState({ errormessage: "" });
-        this.props.loggedin();
-      })
-      .catch(error => {
-        this.setState({
-          errormessage: `Sorry - user not found.`
-        });
-      });
-    this.setState({ username: "" });
+    api.loginUser(this.state.username, this.state.password);
+    //   .then(({ data }) => {
+    //     sessionStorage.setItem("user", data.user.username);
+    //     sessionStorage.setItem("loggedin", true);
+    //     this.setState({ errormessage: "" });
+    //     this.props.loggedin();
+    //   })
+    //   .catch(error => {
+    //     this.setState({
+    //       errormessage: `Sorry - user not found.`
+    //     });
+    //   });
+    // this.setState({ username: "" });
   };
 
   render() {
@@ -54,6 +54,15 @@ class Login extends Component {
                 name="username"
                 required
                 value={this.state.username}
+                onChange={this.handleChange}
+              ></input>
+            </label>
+            <label>
+              Password:
+              <input
+                name="password"
+                required
+                value={this.state.password}
                 onChange={this.handleChange}
               ></input>
             </label>
