@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
 import { Link } from "@reach/router";
+import Details from "./Context";
 
 class Login extends Component {
   state = {
     name: "",
     username: "",
     password: "",
-    loggedin: false
+    attemptedLogin: false,
+    userLoggedin: false
   };
+
   handleChange = event => {
     const key = event.target.name;
     const info = event.target.value;
@@ -17,59 +20,81 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    api.loginUser(this.state.username, this.state.password);
-    //   .then(({ data }) => {
-    //     sessionStorage.setItem("user", data.user.username);
-    //     sessionStorage.setItem("loggedin", true);
-    //     this.setState({ errormessage: "" });
-    //     this.props.loggedin();
-    //   })
-    //   .catch(error => {
-    //     this.setState({
-    //       errormessage: `Sorry - user not found.`
-    //     });
-    //   });
-    // this.setState({ username: "" });
+    api
+      .loginUser(this.state.username, this.state.password)
+      .then(({ data }) => {
+        this.setState(currentState => {
+          return {
+            attemptedLogin: true,
+            username: this.state.username,
+            userLoggedin: true
+          };
+        });
+      })
+      .catch(error => {
+        this.setState({
+          errormessage: `Sorry - user not found.`
+        });
+      });
   };
 
+  componentDidUpdate() {
+    if (this.state.attemptedLogin === true) {
+      let value = this.context;
+      value.setUsername(this.state.username);
+      this.setState({ attemptedLogin: false });
+    }
+    Login.contextType = Details;
+  }
+
   render() {
-    if (sessionStorage.getItem("user")) {
+    if (this.state.userLoggedin === true) {
       return (
-        <main className={"login"}>
-          <div className={"login-box"}>
-            <p>Logged in</p>
-            <Link to={`/`}>View Articles</Link>
-          </div>
-        </main>
+        <Details.Consumer>
+          {context => (
+            <main className={"login"}>
+              <div className={"login-box"}>
+                <p>Logged in as:</p>
+                {context.state.username}
+                <Link to={`/`}>View Articles</Link>
+              </div>
+            </main>
+          )}
+        </Details.Consumer>
       );
     }
+
     return (
-      <main className={"login"}>
-        <div>{this.state.errormessage}</div>
-        <div className={"login-box"}>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Username:
-              <input
-                name="username"
-                required
-                value={this.state.username}
-                onChange={this.handleChange}
-              ></input>
-            </label>
-            <label>
-              Password:
-              <input
-                name="password"
-                required
-                value={this.state.password}
-                onChange={this.handleChange}
-              ></input>
-            </label>
-            <button type="submit">Login</button>
-          </form>
-        </div>
-      </main>
+      <Details.Consumer>
+        {context => (
+          <main className={"login"}>
+            <div>{this.state.errormessage}</div>
+            <div className={"login-box"}>
+              <form onSubmit={this.handleSubmit}>
+                <label>
+                  Username:
+                  <input
+                    name="username"
+                    required
+                    value={this.state.username}
+                    onChange={this.handleChange}
+                  ></input>
+                </label>
+                <label>
+                  Password:
+                  <input
+                    name="password"
+                    required
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                  ></input>
+                </label>
+                <button type="submit">Login</button>
+              </form>
+            </div>
+          </main>
+        )}
+      </Details.Consumer>
     );
   }
 }

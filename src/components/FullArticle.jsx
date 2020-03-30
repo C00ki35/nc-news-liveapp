@@ -5,6 +5,7 @@ import PostComment from "./PostComment";
 import Vote from "./Vote";
 import Loading from "./Loading";
 import ErrorHandler from "./ErrorHandler";
+import Details from "./Context";
 class FullArticle extends Component {
   state = {
     article: "",
@@ -72,25 +73,33 @@ class FullArticle extends Component {
     const allComments = this.state.comments.map(
       ({ body, votes, comment_id, author }) => {
         return (
-          <article key={comment_id} className={"comment-section"}>
-            <div className={"comment-block"} key={comment_id}>
-              <div>
-                Author: {author}
-                <Vote item_id={comment_id} votes={votes} type={"comments"} />
-                {sessionStorage.getItem("user") === author ? (
-                  <button
-                    className={"delete-button"}
-                    delete-button
-                    id={comment_id}
-                    onClick={this.deleteComment}
-                  >
-                    Delete
-                  </button>
-                ) : null}
-              </div>
-              <div className={"comment-body"}>{body}</div>
-            </div>
-          </article>
+          <Details.Consumer>
+            {context => (
+              <article key={comment_id} className={"comment-section"}>
+                <div className={"comment-block"} key={comment_id}>
+                  <div>
+                    Author: {author}
+                    <Vote
+                      item_id={comment_id}
+                      votes={votes}
+                      type={"comments"}
+                    />
+                    {context.state.username === author ? (
+                      <button
+                        className={"delete-button"}
+                        delete-button
+                        id={comment_id}
+                        onClick={this.deleteComment}
+                      >
+                        Delete
+                      </button>
+                    ) : null}
+                  </div>
+                  <div className={"comment-body"}>{body}</div>
+                </div>
+              </article>
+            )}
+          </Details.Consumer>
         );
       }
     );

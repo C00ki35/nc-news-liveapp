@@ -78,12 +78,9 @@ export const vote = (item_id, vote, type) => {
 export const loginUser = (username, password) => {
   const userDetails = { username, password };
   return axios
-    .post(`https://paulncnews.herokuapp.com/api/details, ${userDetails}`)
+    .post(`https://paulncnews.herokuapp.com/api/details`, userDetails)
     .then(result => {
       return result;
-    })
-    .catch(err => {
-      console.dir(err);
     });
 };
 
@@ -102,11 +99,17 @@ export const deleteArticle = article_id => {
       return result;
     });
 };
-export const addNewUser = (name, username) => {
-  const user = { name: name, username: username };
+export const addNewUser = (name, username, avatar_url, password) => {
+  const user = {
+    name: name,
+    username: username,
+    avatar_url: avatar_url,
+    password: password
+  };
   return axios
-    .post(`https://paulncnews.herokuapp.com/api/users`, user)
+    .post(`https://paulncnews.herokuapp.com/api/details/user`, user)
     .then(result => {
+      console.log(result);
       return result;
     });
 };

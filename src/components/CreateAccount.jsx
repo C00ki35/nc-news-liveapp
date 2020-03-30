@@ -4,7 +4,9 @@ import * as api from "../utils/api";
 class CreateAccount extends React.Component {
   state = {
     name: "",
-    username: ""
+    username: "",
+    password: "",
+    avatar_url: ""
   };
   handleChange = event => {
     const key = event.target.name;
@@ -14,7 +16,12 @@ class CreateAccount extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    api.addNewUser(this.state.name, this.state.username);
+    api.addNewUser(
+      this.state.name,
+      this.state.username,
+      this.state.avatar_url,
+      this.state.password
+    );
     this.setState({ name: "", username: "" });
   };
 
@@ -37,6 +44,15 @@ class CreateAccount extends React.Component {
               name="username"
               required
               value={this.state.username}
+              onChange={this.handleChange}
+            ></input>
+          </label>
+          <label>
+            Password:
+            <input
+              name="password"
+              required
+              value={this.state.password}
               onChange={this.handleChange}
             ></input>
           </label>

@@ -27,6 +27,7 @@ import { Link } from "@reach/router";
 import * as api from "../utils/api";
 import { slide as Menu } from "react-burger-menu";
 import "../App.css";
+import Details from "./Context";
 
 class Navbar extends Component {
   state = {
@@ -41,18 +42,22 @@ class Navbar extends Component {
 
   render() {
     return (
-      <Menu right disableAutoFocus>
-        {this.state.topics.map(topic => {
-          return (
-            <div key={topic.slug}>
-              <Link to={`articles/${topic.slug}`}>{topic.slug}</Link>
-            </div>
-          );
-        })}
-        {!this.props.loggedin ? (
-          <Link to={`/account`}>Create Account</Link>
-        ) : null}
-      </Menu>
+      <Details.Consumer>
+        {context => (
+          <Menu right disableAutoFocus>
+            {this.state.topics.map(topic => {
+              return (
+                <div key={topic.slug}>
+                  <Link to={`articles/${topic.slug}`}>{topic.slug}</Link>
+                </div>
+              );
+            })}
+            {!context.state.login ? (
+              <Link to={`/account`}>Create Account</Link>
+            ) : null}
+          </Menu>
+        )}
+      </Details.Consumer>
     );
   }
 }
