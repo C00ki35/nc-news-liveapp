@@ -54,8 +54,7 @@ class Login extends Component {
           {context => (
             <main className={"login"}>
               <div className={"login-box"}>
-                <p>Logged in as:</p>
-                {context.state.username}
+                <p>Logged in as:{context.state.username}</p>
                 <Link to={`/`}>View Articles</Link>
               </div>
             </main>

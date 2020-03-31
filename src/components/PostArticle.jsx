@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
 
-class PostComment extends Component {
+class PostArticle extends Component {
   state = {
     title: "",
     body: "",
@@ -20,7 +20,7 @@ class PostComment extends Component {
       this.state.title,
       this.state.body,
       this.props.topic,
-      this.state.author
+      this.props.author
     );
     this.setState({ body: "", title: "" });
     this.props.articleUpdated("passed");
@@ -64,4 +64,4 @@ class PostComment extends Component {
   }
 }
 
-export default PostComment;
+export default PostArticle;

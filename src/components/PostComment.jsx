@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import Details from "./Context";
 
 class PostComment extends Component {
   state = {
     comment: "",
-    username: sessionStorage.getItem("user")
+    loggedin: false
   };
 
   handleChange = event => {
@@ -13,9 +14,10 @@ class PostComment extends Component {
   };
 
   handleSubmit = event => {
+    console.log(this.props.username);
     event.preventDefault();
     this.props.addComment(
-      this.state.username,
+      this.props.username,
       this.state.comment,
       this.props.article_id
     );
@@ -23,8 +25,14 @@ class PostComment extends Component {
   };
 
   render() {
-    if (!sessionStorage.getItem("loggedin")) {
-      return <div className={"post-comment"}>Login to post a comment</div>;
+    if (this.props.logged === false) {
+      return (
+        <Details.Consumer>
+          {context => (
+            <div className={"post-comment"}>Login to post a comment</div>
+          )}
+        </Details.Consumer>
+      );
     }
     return (
       <div className={"post-comment"}>
@@ -39,6 +47,7 @@ class PostComment extends Component {
             ></textarea>
             <p />
           </label>
+          {console.log(this.state.comment)}
 
           <button className={"add-comment-button"} type="submit">
             Add comment

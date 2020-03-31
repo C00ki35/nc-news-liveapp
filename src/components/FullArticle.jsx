@@ -6,6 +6,7 @@ import Vote from "./Vote";
 import Loading from "./Loading";
 import ErrorHandler from "./ErrorHandler";
 import Details from "./Context";
+
 class FullArticle extends Component {
   state = {
     article: "",
@@ -14,11 +15,18 @@ class FullArticle extends Component {
     commentAdded: false,
     error: false,
     message: "",
-    commentdeleted: false
+    commentdeleted: false,
+    logged: false
   };
 
   componentDidMount() {
+    FullArticle.contextType = Details;
     this.getArticle();
+    let value = this.context;
+
+    if (value.state !== undefined) {
+      this.setState({ logged: value.state.login });
+    }
   }
 
   getArticle = () => {
@@ -68,7 +76,11 @@ class FullArticle extends Component {
   render() {
     if (this.state.isLoading) return <Loading />;
     if (this.state.error) {
-      return <ErrorHandler error={this.state.message} />;
+      return (
+        <Details.Consumer>
+          {context => <ErrorHandler error={this.state.message} />}
+        </Details.Consumer>
+      );
     }
     const allComments = this.state.comments.map(
       ({ body, votes, comment_id, author }) => {
@@ -104,29 +116,35 @@ class FullArticle extends Component {
       }
     );
     return (
-      <>
-        <article className={"display-article"}>
-          <div className={"article-section"}>
-            <ViewToggler buttonName={"comment"}>
-              <PostComment
-                article_id={this.state.article.article_id}
-                addComment={this.addComment}
-              />
-            </ViewToggler>
-            <h4>{this.state.article.title}</h4>
-            {this.state.article.body}
-            {this.state.article.topic}
-            <hr />
-            <Vote
-              item_id={this.state.article.article_id}
-              votes={this.state.article.votes}
-              type={"articles"}
-            />
-            Comments: {this.state.article.comment_count}
-          </div>
-        </article>
-        <div className={"display-article"}>{allComments}</div>
-      </>
+      <Details.Consumer>
+        {context => (
+          <>
+            <article className={"display-article"}>
+              <div className={"article-section"}>
+                <ViewToggler buttonName={"comment"}>
+                  <PostComment
+                    username={context.state.username}
+                    logged={this.state.logged}
+                    article_id={this.state.article.article_id}
+                    addComment={this.addComment}
+                  />
+                </ViewToggler>
+                <h4>{this.state.article.title}</h4>
+                {this.state.article.body}
+                {this.state.article.topic}
+                <hr />
+                <Vote
+                  item_id={this.state.article.article_id}
+                  votes={this.state.article.votes}
+                  type={"articles"}
+                />
+                Comments: {this.state.article.comment_count}
+              </div>
+            </article>
+            <div className={"display-article"}>{allComments}</div>
+          </>
+        )}
+      </Details.Consumer>
     );
   }
 }

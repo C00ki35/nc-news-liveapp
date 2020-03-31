@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import ErrorHandling from "../components/ErrorHandler";
 import PostArticle from "./PostArticle";
 import ViewToggler from "./ViewToggler";
+import Details from "./Context";
 
 class Articles extends Component {
   state = {
@@ -17,11 +18,18 @@ class Articles extends Component {
     error: false,
     message: "",
     articleAdded: false,
-    articleDeleted: false
+    articleDeleted: false,
+    logged: false
   };
 
   componentDidMount() {
+    // Articles.contextType = Details;
     this.getArticles();
+    // let value = this.context;
+
+    // if (value.state !== undefined) {
+    //   this.setState({ logged: value.state.login });
+    // }
   }
 
   componentDidUpdate(prevProps) {
@@ -80,38 +88,42 @@ class Articles extends Component {
     if (this.state.error) return <ErrorHandling error={this.state.message} />;
 
     return (
-      <main className={"articles"}>
-        <div className={"currently-in"}>
-          Currently in:{" "}
-          {this.props.topic_id === undefined
-            ? "All topics"
-            : this.props.topic_id}
-        </div>
-        <OrganiseArticles
-          topic={this.props.topic_id}
-          sortby={this.sortby}
-          sortby_topic={this.state.sort_by}
-        />
-        {sessionStorage.getItem("loggedin") &&
-        this.props.topic_id !== undefined ? (
-          <ViewToggler buttonName={"article"}>
-            <PostArticle
+      <Details.Consumer>
+        {context => (
+          <main className={"articles"}>
+            <div className={"currently-in"}>
+              Currently in:{" "}
+              {this.props.topic_id === undefined
+                ? "All topics"
+                : this.props.topic_id}
+            </div>
+            <OrganiseArticles
               topic={this.props.topic_id}
-              articleUpdated={this.articleAdded}
+              sortby={this.sortby}
+              sortby_topic={this.state.sort_by}
             />
-          </ViewToggler>
-        ) : null}
+            {context.state.login && this.props.topic_id !== undefined ? (
+              <ViewToggler buttonName={"article"}>
+                <PostArticle
+                  author={context.state.username}
+                  topic={this.props.topic_id}
+                  articleUpdated={this.articleAdded}
+                />
+              </ViewToggler>
+            ) : null}
 
-        {this.state.articles.map(article => {
-          return (
-            <ArticleItems
-              deleteArticle={this.deleteArticle}
-              key={article.article_id}
-              {...article}
-            />
-          );
-        })}
-      </main>
+            {this.state.articles.map(article => {
+              return (
+                <ArticleItems
+                  deleteArticle={this.deleteArticle}
+                  key={article.article_id}
+                  {...article}
+                />
+              );
+            })}
+          </main>
+        )}
+      </Details.Consumer>
     );
   }
 }
